@@ -83,9 +83,9 @@ public class JPEGCompressor {
                 int R, G, B;
                 double Y, U, V;
 
-                Y = Math.max(0, Math.min(YArr[x - i][y - j], 255));
-                U = Math.max(0, Math.min(CbArr[x - i][y - j], 255));
-                V = Math.max(0, Math.min(CrArr[x - i][y - j], 255));
+                Y = YArr[x - i][y - j];
+                U = CbArr[x - i][y - j] - 128;
+                V = CrArr[x - i][y - j] - 128;
 
                 R = (int) (Y + V/0.877);
                 R = Math.max(0, Math.min(R, 255));
@@ -113,8 +113,8 @@ public class JPEGCompressor {
                 G = color.getGreen();
                 B = color.getBlue();
                 Y[x][y]  =  (int) (0.299 * R + 0.587 * G + 0.114 * B);
-                Cr[x][y] = (int) (0.877 * (R - Y[x][y]));
-                Cb[x][y] = (int) (0.492 * (B - Y[x][y]));
+                Cr[x][y] = (int) (0.877 * (R - Y[x][y])) + 128;
+                Cb[x][y] = (int) (0.492 * (B - Y[x][y])) + 128;
 
                 Cb[x][y] = Math.max(0, Cb[x][y]);
                 Cr[x][y] = Math.max(0, Cr[x][y]);
